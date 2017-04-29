@@ -6,7 +6,7 @@ public interface IMinterm {
 	 * @param term to reduce
 	 * @return new reduced term
 	 */
-	public Minterm reduce(Minterm term);
+	public MintermReduced reduce(Minterm term);
 	
 	
 }
