@@ -77,7 +77,7 @@ public class MintermTest {
 		
 		MintermReduced term5 = reduced2.reduce(reduced);
 		assertEquals(0, term5.getValue());
-		final int[] reducedDiff3 = {2,8,1};
+		final int[] reducedDiff3 = {1,2,8};
 		assertArrayEquals(reducedDiff3,
 				term5.getReducedDifferences());
 	}
