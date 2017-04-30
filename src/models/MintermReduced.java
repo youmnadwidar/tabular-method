@@ -9,7 +9,9 @@ public class MintermReduced extends Minterm
 
 	public MintermReduced(int bits, int value,
 			int reducedDiff) {
+		
 		super(bits, value);
+		
 		this.coloumn = 1;
 		this.reducedDifferences = new int[this.coloumn];
 		this.reducedDifferences[this.coloumn
@@ -18,8 +20,10 @@ public class MintermReduced extends Minterm
 
 	public MintermReduced(Minterm minterm,
 			int reducedDiff) {
+		
 		this(minterm.getBits(), minterm.getValue(),
 				reducedDiff);
+		
 		this.coloumn = 1;
 		this.reducedDifferences = new int[this.coloumn];
 		this.reducedDifferences[this.coloumn
@@ -31,13 +35,18 @@ public class MintermReduced extends Minterm
 			int reducedDiff) {
 		this(minterm.getBits(), minterm.getValue(),
 				reducedDiff);
+		
 		this.coloumn = minterm.getColoumn() + 1;
 		this.reducedDifferences = new int[this.coloumn];
+		
 		System.arraycopy(minterm.getReducedDifferences(), 0,
 				this.reducedDifferences, 0,
 				this.coloumn - 1);
+		
 		this.reducedDifferences[this.coloumn
 				- 1] = reducedDiff;
+		
+		Arrays.sort(this.reducedDifferences);
 	}
 
 	public int[] getReducedDifferences() {
@@ -59,10 +68,9 @@ public class MintermReduced extends Minterm
 				term.getReducedDifferences())) {
 			return null;
 		}
+		
 		MintermReduced reduced = this.getValue() < term.getValue() ? this : term;
 		int hammingDistance = this.getValue() ^ term.getValue();
-		
-		
 		
 		return new MintermReduced(reduced,hammingDistance);
 	}
