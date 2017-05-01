@@ -11,7 +11,7 @@ public class Minimizer implements IMinimizer {
 	public LinkedList<MintermReduced> minimize(int[] minterms, int bits) {
 		LinkedList<MintermReduced> answer = new LinkedList<>();
 		LinkedList<LinkedList<MintermReduced>[]> process = new LinkedList<>();
-		LinkedList<Minterm>[] firstTerms = new LinkedList[bits];
+		LinkedList<Minterm>[] firstTerms = new LinkedList[bits+1];
 		for (int i = 0; i < minterms.length; i++) {
 			int index = Integer.bitCount(minterms[i]);
 			if (firstTerms[index] == null) {
@@ -22,7 +22,7 @@ public class Minimizer implements IMinimizer {
 		boolean finished = false;
 		int k = 0;
 		int i = 0;
-		process.add(new LinkedList[bits]);
+		process.add(new LinkedList[bits+1]);
 		while (i + 1 < firstTerms.length) {
 			if (firstTerms[i] != null && firstTerms[i + 1] != null) {
 				process.get(0)[i] = new LinkedList<>();
@@ -46,7 +46,7 @@ public class Minimizer implements IMinimizer {
 			finished = true;
 			while (i + 1 < process.get(k).length) {
 				if (process.get(k)[i] != null && process.get(k)[i + 1] != null) {
-					process.add(new LinkedList[bits]);
+					process.add(new LinkedList[bits+1]);
 					process.get(k + 1)[i] = new LinkedList<>();
 					for (int j = 0; j < process.get(k)[i].size(); j++) {
 						for (int j2 = 0; j2 < process.get(k)[i + 1].size(); j2++) {
@@ -68,14 +68,16 @@ public class Minimizer implements IMinimizer {
 			k++;
 
 		}
+		
 		for (int j = 0; j < process.getLast().length; j++) {
 			if (process.getLast()[j] != null) {
 				for (int j2 = 0; j2 < process.getLast()[j].size(); j2++) {
-if (!answer.contains(process.getLast()[j].get(j2)))
+                     if (!answer.contains(process.getLast()[j].get(j2)))
 						answer.add(process.getLast()[j].get(j2));
 				}
 			}
 		}
 		return answer;
 	}
+	
 }

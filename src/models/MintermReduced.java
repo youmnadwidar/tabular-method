@@ -77,4 +77,13 @@ public class MintermReduced extends Minterm
 		return new MintermReduced(reduced,hammingDistance);
 	}
 	
+	
+	 @Override
+	    public boolean equals(Object term)
+	    {
+	      
+			return (this.getValue()==((MintermReduced) term).getValue()
+					&&Arrays.equals(reducedDifferences, ((MintermReduced)term).reducedDifferences));
+				    }
+	
 }
