@@ -3,7 +3,7 @@ package models;
 public class Minterm implements IMinterm {
 	private int bits;
 	private int value;
-	private boolean checked;
+	protected boolean checked;
 
 	public Minterm(int bits, int value) {
 		this.bits = bits;
@@ -52,6 +52,8 @@ public class Minterm implements IMinterm {
 
 		MintermReduced reduced = new MintermReduced(
 				this.bits, reducedValue, hammingDistance);
+		this.checked=true;
+		term.checked=true;
 		return reduced;
 	}
 

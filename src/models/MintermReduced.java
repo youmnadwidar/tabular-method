@@ -71,8 +71,10 @@ public class MintermReduced extends Minterm
 		
 		MintermReduced reduced = this.getValue() < term.getValue() ? this : term;
 		int hammingDistance = this.getValue() ^ term.getValue();
+		this.checked=true;
+		term.checked=true;
 		
 		return new MintermReduced(reduced,hammingDistance);
 	}
-
+	
 }
