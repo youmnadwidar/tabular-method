@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 import models.Minterm;
@@ -63,6 +65,14 @@ public class Minimizer implements IMinimizer {
 
 					}
 				}
+				if(process.get(k)[i] != null &&process.get(k)[i + 1] == null){
+					for (int j = 0; j < process.get(k)[i].size(); j++) {
+						
+					if (!process.get(k)[i].get(j).isChecked() 
+							&& !answer.contains(process.get(k)[i].get(j)))
+						answer.add(process.get(k)[i].get(j));
+				}
+				}
 				i++;
 
 			}
@@ -78,6 +88,7 @@ public class Minimizer implements IMinimizer {
 				}
 			}
 		}
+		
 		return answer;
 	}
 	
