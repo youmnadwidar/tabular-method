@@ -57,4 +57,6 @@ public class Minterm implements IMinterm {
 		return reduced;
 	}
 
+	
+
 }
