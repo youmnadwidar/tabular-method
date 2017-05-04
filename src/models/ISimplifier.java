@@ -9,6 +9,7 @@ public interface ISimplifier {
 	 * @param literals number of maximum literals of a term
 	 * @return a list of the terms in the most simplified form
 	 */
-	public LinkedList<Minterm> simplify(LinkedList<Minterm> terms,int literals);
+	public LinkedList<MintermReduced> simplify(LinkedList<MintermReduced> firststep,int literals);
+	
 	
 }
