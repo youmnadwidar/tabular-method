@@ -41,6 +41,7 @@ public class Minimizer implements IMinimizer {
 				
 				if (process.get(k)[i] != null && process.get(k)[i + 1] == null) {
 					for (int j = 0; j < process.get(k)[i].size(); j++) {
+						if(!process.get(k)[i].get(j).isChecked())
 						addAnswer(process.get(k)[i].get(j));
 					}
 				}
@@ -90,8 +91,14 @@ public class Minimizer implements IMinimizer {
 						}
 					}
 
-					// if (!firstTerms[i].get(j).isChecked())
-					// answer.add((MintermReduced)firstTerms[i].get(j));
+					 if (!firstTerms[i].get(j).isChecked())
+					 answer.add(new MintermReduced(bits, firstTerms[i].get(j).getValue(),-1) );
+				}
+			}
+			if (firstTerms[i] != null && firstTerms[i + 1] == null) {
+				for (int j = 0; j < firstTerms[i].size(); j++) {
+					if( !firstTerms[i].get(j).isChecked())
+					addAnswer(new MintermReduced(bits, firstTerms[i].get(j).getValue(),-1));
 				}
 			}
 			i++;
