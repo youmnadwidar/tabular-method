@@ -1,5 +1,6 @@
 package controllers;
 
+import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -12,7 +13,6 @@ public class Minimizer implements IMinimizer {
 	LinkedList<MintermReduced> answer;
 	LinkedList<LinkedList<MintermReduced>[]> process;
 	LinkedList<Minterm>[] firstTerms;
-
 	int bits;
 
 	public Minimizer(int bit) {
