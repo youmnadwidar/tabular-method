@@ -9,25 +9,26 @@ public class MintermReduced extends Minterm
 
 	public MintermReduced(int bits, int value,
 			int reducedDiff) {
-		
+
 		super(bits, value);
-		
-		this.coloumn = 1;
-		this.reducedDifferences = new int[this.coloumn];
-		this.reducedDifferences[this.coloumn
-				- 1] = reducedDiff;
+		if (reducedDiff == -1) {
+			this.coloumn = 0;
+			this.reducedDifferences = new int[0];
+
+		} else {
+			this.coloumn = 1;
+			this.reducedDifferences = new int[this.coloumn];
+			this.reducedDifferences[this.coloumn
+					- 1] = reducedDiff;
+		}
 	}
 
 	public MintermReduced(Minterm minterm,
 			int reducedDiff) {
-		
+
 		this(minterm.getBits(), minterm.getValue(),
 				reducedDiff);
-		
-		this.coloumn = 1;
-		this.reducedDifferences = new int[this.coloumn];
-		this.reducedDifferences[this.coloumn
-				- 1] = reducedDiff;
+
 
 	}
 
@@ -35,17 +36,17 @@ public class MintermReduced extends Minterm
 			int reducedDiff) {
 		this(minterm.getBits(), minterm.getValue(),
 				reducedDiff);
-		
+
 		this.coloumn = minterm.getColoumn() + 1;
 		this.reducedDifferences = new int[this.coloumn];
-		
+
 		System.arraycopy(minterm.getReducedDifferences(), 0,
 				this.reducedDifferences, 0,
 				this.coloumn - 1);
-		
+
 		this.reducedDifferences[this.coloumn
 				- 1] = reducedDiff;
-		
+
 		Arrays.sort(this.reducedDifferences);
 	}
 
@@ -59,7 +60,8 @@ public class MintermReduced extends Minterm
 
 	private boolean isAdjacent(int value,
 			int[] reducedDiff) {
-		return isAdjacent(value) && Arrays.equals(reducedDiff, this.reducedDifferences);
+		return isAdjacent(value) && Arrays.equals(
+				reducedDiff, this.reducedDifferences);
 	}
 
 	@Override
@@ -68,22 +70,24 @@ public class MintermReduced extends Minterm
 				term.getReducedDifferences())) {
 			return null;
 		}
-		
-		MintermReduced reduced = this.getValue() < term.getValue() ? this : term;
-		int hammingDistance = this.getValue() ^ term.getValue();
-		this.checked=true;
-		term.checked=true;
-		
-		return new MintermReduced(reduced,hammingDistance);
+
+		MintermReduced reduced = this.getValue() < term
+				.getValue() ? this : term;
+		int hammingDistance = this.getValue()
+				^ term.getValue();
+		this.checked = true;
+		term.checked = true;
+
+		return new MintermReduced(reduced, hammingDistance);
 	}
-	
-	
-	 @Override
-	    public boolean equals(Object term)
-	    {
-	      
-			return (this.getValue()==((MintermReduced) term).getValue()
-					&&Arrays.equals(reducedDifferences, ((MintermReduced)term).reducedDifferences));
-				    }
-	
+
+	@Override
+	public boolean equals(Object term) {
+
+		return (this.getValue() == ((MintermReduced) term)
+				.getValue()
+				&& Arrays.equals(reducedDifferences,
+						((MintermReduced) term).reducedDifferences));
+	}
+
 }
