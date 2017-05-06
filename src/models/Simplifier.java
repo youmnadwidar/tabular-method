@@ -50,7 +50,7 @@ import models.MintermReduced;
 		Arrays.fill(minterms, 0);
 		checked=new boolean [Reducedterms.size()][(int) Math.pow(2, bits)];
 		for (int i = 0; i < Reducedterms.size(); i++) {
-             int [] coverd = new int [Reducedterms.get(i).getReducedDifferences().length];
+             int [] coverd = new int [(int) Math.pow(2, Reducedterms.get(i).getReducedDifferences().length)];
              coverd=getcoverTerms(Reducedterms.get(i));
 			for (int j = 0; j <coverd.length ; j++) {
 			
@@ -82,6 +82,7 @@ import models.MintermReduced;
 			{
 				answer.add(Reducedterms.get(i));
 				minterms[essentials[k]]--;
+				 continue;
 			}
 				
 			}
@@ -133,6 +134,7 @@ import models.MintermReduced;
     			}
     		int j = 0;
     		for (int i = 0; i < diff.size(); i++) {
+    			if(!contain(coveredTerms, term.getValue()+IntStream.of(diff.get(i)).sum()))
     			coveredTerms[j]=term.getValue()+IntStream.of(diff.get(i)).sum();
 			}
     		return coveredTerms;
