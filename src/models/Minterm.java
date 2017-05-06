@@ -5,6 +5,8 @@ public class Minterm implements IMinterm {
 	private int value;
 	protected boolean checked;
 
+	
+
 	public Minterm(int bits, int value) {
 		this.bits = bits;
 		this.value = value;
