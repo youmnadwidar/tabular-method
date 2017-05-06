@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.stream.IntStream;
 import models.MintermReduced;
 
- class Simplifier implements ISimplifier {
+ public class Simplifier implements ISimplifier {
 	boolean [][] checked;
 	int [] minterms;
 	LinkedList<MintermReduced> answer = new LinkedList<>();
@@ -25,25 +25,26 @@ import models.MintermReduced;
 		return null;
 	}
 	public void getRowDominant(){
-		for (int i = 0; i < Reducedterms.size(); i++) {
-			for (int j = i+1; j < Reducedterms.size(); j++) {
-				int compare=containsAll(Reducedterms.get(i).getReducedDifferences(), Reducedterms.get(j).getReducedDifferences()) ;
-				if(compare!=0)
-				{
-					if(compare==1){
-						remove(Reducedterms.get(j));
-					}
-					else {
-						remove(Reducedterms.get(i));
-					}
-				}
-			
+		int i=Reducedterms.size()-1;
+		while (i>=0) {
+			if(getcoverTerms(Reducedterms.get(i)).length>getcoverTerms(Reducedterms.get(i-1)).length)
+			{
+				answer.add(Reducedterms.get(i));
+				//remove();
 			}
-			
+			else {
+				LinkedList<MintermReduced> temp = new LinkedList<>();
+				while(getcoverTerms(Reducedterms.get(i)).length==getcoverTerms(Reducedterms.get(i-1)).length){
+					temp.add(Reducedterms.get(i));
+					i--;
+				}
+				temp.add(Reducedterms.get(i));
+				getColoumnDominant(temp);
+			}
 		}
 		
 	}
-	public void getColoumnDominant(){
+	public void getColoumnDominant(LinkedList<MintermReduced> terms){
 		
 	}
 	public void fill2Darray(int bits){
@@ -92,7 +93,7 @@ import models.MintermReduced;
 	public void getRemoved(){
 		
 	}
-	private void remove(MintermReduced term){
+	private void remove(){
 		
 	}
 
@@ -107,8 +108,8 @@ import models.MintermReduced;
             }
         }       
         else {
-
-          diff.add(buff);
+          int[] temp = Arrays.copyOf(buff, buff.length);
+          diff.add(temp);
 
         }
 	}
@@ -132,10 +133,13 @@ import models.MintermReduced;
 				
     			powerset(term.getReducedDifferences(), 0, j2, new int [term.getReducedDifferences().length]);
     			}
-    		int j = 0;
+    		int j = 1;
+    		coveredTerms[0]=term.getValue();
     		for (int i = 0; i < diff.size(); i++) {
-    			if(!contain(coveredTerms, term.getValue()+IntStream.of(diff.get(i)).sum()))
+    			if(!contain(coveredTerms, term.getValue()+IntStream.of(diff.get(i)).sum())){
     			coveredTerms[j]=term.getValue()+IntStream.of(diff.get(i)).sum();
+    			j++;
+    			}
 			}
     		return coveredTerms;
     		
