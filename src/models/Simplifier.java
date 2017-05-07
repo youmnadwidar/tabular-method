@@ -30,7 +30,7 @@ import models.MintermReduced;
 			if(getcoverTerms(Reducedterms.get(i)).length>getcoverTerms(Reducedterms.get(i-1)).length)
 			{
 				answer.add(Reducedterms.get(i));
-				//remove();
+				remove(Reducedterms.get(i));
 			}
 			else {
 				LinkedList<MintermReduced> temp = new LinkedList<>();
@@ -44,8 +44,24 @@ import models.MintermReduced;
 		}
 		
 	}
-	public void getColoumnDominant(LinkedList<MintermReduced> terms){
+	public MintermReduced getColoumnDominant(LinkedList<MintermReduced> terms){
+		int maxColoumnIndex = 0;
+		int prevCount = 0;
 		
+		for(int i=0;i<terms.size();i++){
+			int[] coveredTerms = getcoverTerms(terms.get(i));
+			int termsCount = 0;
+			for (int j=0;j<terms.size();j++){
+				termsCount += minterms[coveredTerms[j]];
+			}
+			if (termsCount > prevCount){
+				maxColoumnIndex = i;
+			}
+			if (termsCount == prevCount){
+				return null;
+			}
+		}
+		return terms.get(maxColoumnIndex);
 	}
 	public void fill2Darray(int bits){
 		Arrays.fill(minterms, 0);
@@ -93,8 +109,11 @@ import models.MintermReduced;
 	public void getRemoved(){
 		
 	}
-	private void remove(){
-		
+	private void remove(MintermReduced term){
+		int[] coveredTerms = getcoverTerms(term);
+		for(int i=0;i<coveredTerms.length;i++){
+			minterms[coveredTerms[i]] = 0;
+		}
 	}
 
 	public static void powerset(int[] s,int i,int k,int[] buff) {
