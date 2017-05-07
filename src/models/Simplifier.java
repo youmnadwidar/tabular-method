@@ -39,7 +39,13 @@ import models.MintermReduced;
 					i--;
 				}
 				temp.add(Reducedterms.get(i));
-				getColoumnDominant(temp);
+				MintermReduced term = getColoumnDominant(temp);
+				if (term != null){
+					answer.add(term);
+					remove(term);
+				}else{
+					//petrick's
+				}
 			}
 		}
 		
