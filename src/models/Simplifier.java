@@ -25,8 +25,8 @@ public class Simplifier implements ISimplifier {
 		fill2Darray(bits);
 		getEssential(wantedTerms);
 		getRowDominant();
-
-		return null;
+		answers.add(answer);
+		return answers;
 	}
 
 	public void getRowDominant() {
