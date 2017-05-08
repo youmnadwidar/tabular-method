@@ -159,6 +159,7 @@ public class Simplifier implements ISimplifier {
 		for (int i = 0; i < coveredTerms.length; i++) {
 			minterms[coveredTerms[i]] = 0;
 		}
+		answer.remove(term);
 	}
 
 	public static void powerset(int[] s, int i, int k,
