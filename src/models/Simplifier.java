@@ -49,31 +49,40 @@ public class Simplifier implements ISimplifier {
 					remove(term);
 				} else {
 					answers.add(answer);
-					MintermReduced first = Reducedterms.get(i);
-					Reducedterms.remove(i);
+					int[] indices = maxIndices(temp);
+					MintermReduced first = temp.get(indices[0]);
+					Reducedterms.remove(first);
 					LinkedList<LinkedList<MintermReduced>> path1 = simplify(Reducedterms, bits, wantedTerms);
 					Reducedterms.add(i, first);
-					MintermReduced second = Reducedterms.get(i - 1);
-					Reducedterms.remove(i - 1);
+					MintermReduced second = temp.get(indices[1]);
+					Reducedterms.remove(second);
 					LinkedList<LinkedList<MintermReduced>> path2 = simplify(Reducedterms, bits, wantedTerms);
-					converge(answers, converge(path1, path2));
+					converge(answers, merge(path1, path2));
+					
 				}
 			}
 		}
 
 	}
-
-	private LinkedList<LinkedList<MintermReduced>> converge(LinkedList<LinkedList<MintermReduced>> path1,
-			LinkedList<LinkedList<MintermReduced>> path2) {
-		for (int i = 0; i < path2.size(); i++) {
-			path1.add(path2.get(i));
+	private void converge(
+			LinkedList<LinkedList<MintermReduced>> answers,
+			LinkedList<LinkedList<MintermReduced>> paths) {
+		LinkedList<LinkedList<MintermReduced>> mergedAnswers = new LinkedList<LinkedList<MintermReduced>>();
+		for(int i=0;i<answers.size();i++){
+			
+			for(int j=0;j<paths.size();j++){
+				LinkedList<MintermReduced> answer = answers.get(i);
+				mergedAnswers.add(merge(answer,paths.get(j)));
+			}
 		}
-		return path1;
+		this.answers = mergedAnswers;
+		
 	}
 
-	public MintermReduced getColoumnDominant(LinkedList<MintermReduced> terms) {
-		int maxColoumnIndex = 0;
-		int prevCount = 0;
+	private int[] maxIndices(LinkedList<MintermReduced> terms){
+		int[] maxColoumnIndices = new int[2];
+		int prevMax = 0;
+		
 
 		for (int i = 0; i < terms.size(); i++) {
 			int[] coveredTerms = getcoverTerms(terms.get(i));
@@ -81,17 +90,52 @@ public class Simplifier implements ISimplifier {
 			for (int j = 0; j < coveredTerms.length; j++) {
 				termsCount += minterms[coveredTerms[j]];
 			}
-			if (termsCount > prevCount) {
-				maxColoumnIndex = i;
+			if (termsCount > prevMax) {
+				maxColoumnIndices[0] = i;
+				maxColoumnIndices[0] = -1;
+				prevMax = termsCount;
 			}
-			if (termsCount == prevCount) {
+			if (termsCount == prevMax) {
 
-				return null;
+				maxColoumnIndices[1] = i;
 			}
-			prevCount=termsCount;
 			
 		}
-		return terms.get(maxColoumnIndex);
+		
+		return maxColoumnIndices;
+	}
+	private LinkedList merge(LinkedList path1,
+			LinkedList path2) {
+		for (int i = 0; i < path2.size(); i++) {
+			path1.add(path2.get(i));
+		}
+		return path1;
+	}
+	
+
+	public MintermReduced getColoumnDominant(LinkedList<MintermReduced> terms) {
+		int maxColoumnIndex = 0;
+		int prevMax = 0;
+		
+
+		for (int i = 0; i < terms.size(); i++) {
+			int[] coveredTerms = getcoverTerms(terms.get(i));
+			int termsCount = 0;
+			for (int j = 0; j < coveredTerms.length; j++) {
+				termsCount += minterms[coveredTerms[j]];
+			}
+			if (termsCount > prevMax) {
+				maxColoumnIndex = i;
+				prevMax = termsCount;
+			}
+			if (termsCount == prevMax) {
+
+				maxColoumnIndex = -1;
+			}
+			
+		}
+		
+		return maxColoumnIndex == -1 ? null : terms.get(maxColoumnIndex);
 	}
 
 	public void fill2Darray(int bits) {
