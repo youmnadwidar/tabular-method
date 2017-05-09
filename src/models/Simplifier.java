@@ -92,7 +92,7 @@ public class Simplifier implements ISimplifier {
 			}
 			if (termsCount > prevMax) {
 				maxColoumnIndices[0] = i;
-				maxColoumnIndices[0] = -1;
+				maxColoumnIndices[1] = -1;
 				prevMax = termsCount;
 			}
 			if (termsCount == prevMax) {
