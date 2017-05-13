@@ -103,6 +103,8 @@ public class Minimizer implements IMinimizer {
 			}
 			i++;
 		}
+	if(i==firstTerms.length-1&&firstTerms[i] != null&&!firstTerms[i].get(0).isChecked())
+			addAnswer(new MintermReduced(bits, firstTerms[i].get(00).getValue(),-1));
 
 	}
 /**
