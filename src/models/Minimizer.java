@@ -1,14 +1,9 @@
-package controllers;
+package models;
 
-import java.lang.reflect.Array;
-import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.LinkedList;
 
-import models.Action;
-import models.Minterm;
-import models.MintermReduced;
-import models.QMM;
+import controllers.QMM;
 
 public class Minimizer implements IMinimizer {
 
@@ -18,6 +13,7 @@ public class Minimizer implements IMinimizer {
 	int bits;
 	QMM qm;
 
+	@SuppressWarnings("unchecked")
 	public Minimizer(int bit) {
 		this.process = new LinkedList<>();
 		this.answer = new LinkedList<>();
@@ -25,6 +21,7 @@ public class Minimizer implements IMinimizer {
 		this.firstTerms = new LinkedList[bits + 1];
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public LinkedList<MintermReduced> minimize(
 			int[] minterms) {
@@ -37,7 +34,7 @@ public class Minimizer implements IMinimizer {
 
 		while (!finished) {
 			finished = true;
-			i=0;
+			i = 0;
 			while (i + 1 < process.get(k).length) {
 				if (process.get(k)[i] != null
 						&& process.get(k)[i + 1] != null) {
@@ -48,9 +45,9 @@ public class Minimizer implements IMinimizer {
 					process.get(
 							k + 1)[i] = new LinkedList<>();
 					boolean result = reduceReduced(i, k);
-					System.out.println(result+" && "+finished);
+					
 					finished = finished && result;
-					System.out.println("finished = "+finished);
+					
 					if (process.get(k)[i] != null && process
 							.get(k)[i + 1] == null) {
 						for (int j = 0; j < process
@@ -73,13 +70,11 @@ public class Minimizer implements IMinimizer {
 
 			}
 			k++;
-			
+
 		}
 
 		PutLast(k);
-		for (MintermReduced term : answer) {
-			System.out.println(term.toString());
-		}
+		
 		return answer;
 	}
 
@@ -102,6 +97,7 @@ public class Minimizer implements IMinimizer {
 	/**
 	 * the first reduction of the minterms.
 	 */
+	@SuppressWarnings("unchecked")
 	public void Reducefirst() {
 		qm.setCurrentProccess(
 				"Step 2: Minimizing first Coloumn.");
@@ -159,8 +155,11 @@ public class Minimizer implements IMinimizer {
 			}
 			i++;
 		}
-		if(i==firstTerms.length-1 && firstTerms[i]!=null&&!firstTerms[i].get(0).isChecked())
-			addAnswer(new MintermReduced(bits, firstTerms[i].get(0).getValue(), -1));
+		if (i == firstTerms.length - 1
+				&& firstTerms[i] != null
+				&& !firstTerms[i].get(0).isChecked())
+			addAnswer(new MintermReduced(bits,
+					firstTerms[i].get(0).getValue(), -1));
 
 	}
 

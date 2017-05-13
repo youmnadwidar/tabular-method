@@ -1,10 +1,13 @@
-package models;
+package controllers;
 
 import java.util.LinkedList;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import controllers.Minimizer;
+import models.Action;
+import models.Minimizer;
+import models.MintermReduced;
 import models.Parser;
+import models.Simplifier;
 
 public class QMM {
 	int[] minterms;
@@ -65,9 +68,7 @@ public class QMM {
 		//		.parse(minimizer.minimize(allTerms));
 	
 		this.currentProcess="Complete!";
-		for(Action action: steps){
-			System.out.println(action.toString());
-		}
+		
 		
 	}
 

@@ -4,32 +4,30 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
-import javax.swing.DropMode;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-
-import models.Minterm;
-import models.QMM;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Component;
 import javax.swing.JButton;
-import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import controllers.QMM;
+
 import java.awt.SystemColor;
 import java.awt.Color;
-import java.awt.Canvas;
-import javax.swing.JSeparator;
-import javax.swing.JProgressBar;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class InputPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7945084502171095720L;
 	private JTextField mintermInput;
 	private JTextField dcInput;
 	private JTextField bitsInput;

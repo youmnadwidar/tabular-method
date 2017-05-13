@@ -1,13 +1,12 @@
 package tests;
 
-import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import controllers.Minimizer;
+import models.Minimizer;
 import models.MintermReduced;
 
 public class MinimizerTest {

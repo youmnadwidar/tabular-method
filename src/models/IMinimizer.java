@@ -1,8 +1,6 @@
-package controllers;
+package models;
 
 import java.util.LinkedList;
-
-import models.MintermReduced;
 
 public interface IMinimizer {
 	/**

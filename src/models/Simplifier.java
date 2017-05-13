@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.stream.IntStream;
 
+import controllers.QMM;
+
 public class Simplifier implements ISimplifier {
 	int bits;
 	LinkedList<LinkedList<Integer>> wantedTerms = new LinkedList<>();
@@ -65,10 +67,10 @@ public class Simplifier implements ISimplifier {
 		return answers;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void fill2Darray(int bits) {
 
-		termschecked = new LinkedList[(int) (Math.pow(2,
-				bits))];
+		termschecked = new LinkedList[(int) (Math.pow(2,bits))];
 
 		for (int i = 0; i < Reducedterms.size(); i++) {
 
@@ -113,7 +115,6 @@ public class Simplifier implements ISimplifier {
 			int[] buff) {
 		if (i < k) {
 			for (int j = i; j < s.length; j++) {
-				int o = s[j];
 				if (!contain(buff, s[j]))
 
 					buff[i] = s[j];

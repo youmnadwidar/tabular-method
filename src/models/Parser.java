@@ -37,6 +37,7 @@ public class Parser {
 			}
 			sb.append(") + ");
 		}
+		sb.delete(sb.length()-2, sb.length());
 		return sb.toString();
 	}
 
@@ -44,7 +45,9 @@ public class Parser {
 		StringBuilder sb = new StringBuilder();
 		for ( LinkedList<MintermReduced> term: terms ) {
 			sb.append(parse(term) + '\n');
+			sb.append("or"+'\n');
 		}
+		sb.delete(sb.length()-3, sb.length());
 		return sb.toString();
 	}
 }
