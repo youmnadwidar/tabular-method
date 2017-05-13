@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.stream.IntStream;
 
-import com.sun.org.apache.regexp.internal.recompile;
-
 public class Simplifier implements ISimplifier {
 	int bits;
 	LinkedList<LinkedList<Integer>> wantedTerms = new LinkedList<>();
@@ -14,9 +12,11 @@ public class Simplifier implements ISimplifier {
 	LinkedList<MintermReduced> Reducedterms = new LinkedList<>();
 	LinkedList<LinkedList<MintermReduced>> answers = new LinkedList<LinkedList<MintermReduced>>();
 	static LinkedList<int[]> diff = new LinkedList<>();
+	QMM qmm;
 
 	@Override
-	public LinkedList<LinkedList<MintermReduced>> simplify(LinkedList<MintermReduced> firststep, int bits,
+	public LinkedList<LinkedList<MintermReduced>> simplify(
+			LinkedList<MintermReduced> firststep, int bits,
 			int[] wantedTerms) {
 		this.bits = bits;
 		for (int i = 0; i < wantedTerms.length; i++) {
@@ -32,18 +32,27 @@ public class Simplifier implements ISimplifier {
 				Petrik primes;
 				primes = GetPetrik();
 
-				for (int i = 0; i < primes.petrikTerm.size(); i++) {
-					LinkedList<MintermReduced> temp = new LinkedList<>(answer);
-					for (int k = 0; k < primes.petrikTerm.get(i).size(); k++) {
+				for (int i = 0; i < primes.petrikTerm
+						.size(); i++) {
+					LinkedList<MintermReduced> temp = new LinkedList<>(
+							answer);
+					for (int k = 0; k < primes.petrikTerm
+							.get(i).size(); k++) {
 
-						temp.add(Reducedterms.get(primes.petrikTerm.get(i).get(k)));
+						temp.add(Reducedterms
+								.get(primes.petrikTerm
+										.get(i).get(k)));
 					}
 					answers.add(new LinkedList<>(temp));
 				}
 			} else if (this.wantedTerms.size() == 1) {
-				for (int i = 0; i < this.wantedTerms.getFirst().size(); i++) {
-					LinkedList<MintermReduced> temp = new LinkedList<>(answer);
-					temp.add(Reducedterms.get(this.wantedTerms.getFirst().get(i)));
+				for (int i = 0; i < this.wantedTerms
+						.getFirst().size(); i++) {
+					LinkedList<MintermReduced> temp = new LinkedList<>(
+							answer);
+					temp.add(Reducedterms
+							.get(this.wantedTerms.getFirst()
+									.get(i)));
 					answers.add(new LinkedList<>(temp));
 				}
 
@@ -58,7 +67,8 @@ public class Simplifier implements ISimplifier {
 
 	public void fill2Darray(int bits) {
 
-		termschecked = new LinkedList[(int) (Math.pow(2, bits))];
+		termschecked = new LinkedList[(int) (Math.pow(2,
+				bits))];
 
 		for (int i = 0; i < Reducedterms.size(); i++) {
 
@@ -76,16 +86,22 @@ public class Simplifier implements ISimplifier {
 
 	public int[] getcoverTerms(MintermReduced term) {
 		diff = new LinkedList<>();
-		int[] coveredTerms = new int[(int) Math.pow(2, term.getReducedDifferences().length)];
-		for (int j2 = 1; j2 <= term.getReducedDifferences().length; j2++) {
+		int[] coveredTerms = new int[(int) Math.pow(2,
+				term.getReducedDifferences().length)];
+		for (int j2 = 1; j2 <= term
+				.getReducedDifferences().length; j2++) {
 
-			powerset(term.getReducedDifferences(), 0, j2, new int[term.getReducedDifferences().length]);
+			powerset(term.getReducedDifferences(), 0, j2,
+					new int[term
+							.getReducedDifferences().length]);
 		}
 		int j = 1;
 		coveredTerms[0] = term.getValue();
 		for (int i = 0; i < diff.size(); i++) {
-			if (!contain(coveredTerms, term.getValue() + IntStream.of(diff.get(i)).sum())) {
-				coveredTerms[j] = term.getValue() + IntStream.of(diff.get(i)).sum();
+			if (!contain(coveredTerms, term.getValue()
+					+ IntStream.of(diff.get(i)).sum())) {
+				coveredTerms[j] = term.getValue()
+						+ IntStream.of(diff.get(i)).sum();
 				j++;
 			}
 		}
@@ -93,7 +109,8 @@ public class Simplifier implements ISimplifier {
 
 	}
 
-	public static void powerset(int[] s, int i, int k, int[] buff) {
+	public static void powerset(int[] s, int i, int k,
+			int[] buff) {
 		if (i < k) {
 			for (int j = i; j < s.length; j++) {
 				int o = s[j];
@@ -114,13 +131,21 @@ public class Simplifier implements ISimplifier {
 		fillWantedTerms(wantedTerms);
 		int i = 0;
 		while (i < this.wantedTerms.size()) {
-			if (this.wantedTerms.get(i).size() == 1) {
-				MintermReduced term = Reducedterms.get(this.wantedTerms.get(i).getFirst());
+			if (this.wantedTerms.get(i) != null && this.wantedTerms.get(i).size() == 1) {
+				MintermReduced term = Reducedterms.get(
+						this.wantedTerms.get(i).getFirst());
 				answer.add(term);
+					qmm.addStep(
+							new Action(term.toString(),
+							"", "",
+							" is an essential prime implicant, added to answer."));
 				remove(term);
 				int j = 0;
 				while (j < this.wantedTerms.size()) {
-					if (this.wantedTerms.get(j).contains(this.wantedTerms.get(i).getFirst()) && i != j) {
+					if (this.wantedTerms.get(j) != null && this.wantedTerms.get(j)
+							.contains(this.wantedTerms
+									.get(i).getFirst())
+							&& i != j) {
 						this.wantedTerms.remove(j);
 						if (j < i)
 							i--;
@@ -152,8 +177,9 @@ public class Simplifier implements ISimplifier {
 
 	private void remove(MintermReduced term) {
 		/**
-		 * int[] coveredTerms = getcoverTerms(term); for (int i = 0; i <
-		 * coveredTerms.length; i++) { minterms[coveredTerms[i]] = 0;
+		 * int[] coveredTerms = getcoverTerms(term); for (int i =
+		 * 0; i < coveredTerms.length; i++) {
+		 * minterms[coveredTerms[i]] = 0;
 		 * this.wantedTerms.remove(coveredTerms[i]); }
 		 **/
 		term.checked = true;
@@ -162,15 +188,26 @@ public class Simplifier implements ISimplifier {
 	public void getRowDominant() {
 		int i = Reducedterms.size() - 1;
 		while (i > 0 && !Reducedterms.get(i).isChecked()) {
-			int[] term1 = getcoverTerms(Reducedterms.get(i));
-			for (int j = 0; j <i; j++) {
-				int[] term2 = getcoverTerms(Reducedterms.get(j));
+			int[] term1 = getcoverTerms(
+					Reducedterms.get(i));
+			for (int j = 0; j < i; j++) {
+				int[] term2 = getcoverTerms(
+						Reducedterms.get(j));
 				int compare = containsAll(term1, term2);
-				if(compare!=0){
-					if(compare==1){
+				if (compare != 0) {
+					if (compare == 1) {
+						qmm.addStep(new Action(
+								Reducedterms.get(j)
+										.toString(),
+								"", "",
+								" is a row dominant implicant, added to answer."));
 						Reducedterms.remove(j);
-					}
-					else {
+					} else {
+						qmm.addStep(new Action(
+								Reducedterms.get(i)
+										.toString(),
+								"", "",
+								" is a row dominant implicant, added to answer."));
 						Reducedterms.remove(i);
 					}
 				}
@@ -182,8 +219,10 @@ public class Simplifier implements ISimplifier {
 	public void getColoumnDominant(int[] wanted) {
 		int i = 0;
 		while (i < wantedTerms.size()) {
-			for (int j = 0; j < wantedTerms.size() && i != j; j++) {
-				if (wantedTerms.get(j).containsAll(wantedTerms.get(i))) {
+			for (int j = 0; j < wantedTerms.size()
+					&& i != j; j++) {
+				if (wantedTerms.get(j)
+						.containsAll(wantedTerms.get(i))) {
 					this.wantedTerms.remove(j);
 					j--;
 				}
@@ -202,18 +241,27 @@ public class Simplifier implements ISimplifier {
 	}
 
 	public Petrik GetPetrik() {
-		wantedTerms.set(0, removeChecked(wantedTerms.get(0)));
-		wantedTerms.set(1, removeChecked(wantedTerms.get(1)));
+		wantedTerms.set(0,
+				removeChecked(wantedTerms.get(0)));
+		wantedTerms.set(1,
+				removeChecked(wantedTerms.get(1)));
 
-		Petrik term1 = new Petrik(wantedTerms.get(0).toArray(new Integer[wantedTerms.get(0).size()]));
-		Petrik term2 = new Petrik(wantedTerms.get(1).toArray(new Integer[wantedTerms.get(1).size()]));
+		Petrik term1 = new Petrik(wantedTerms.get(0)
+				.toArray(new Integer[wantedTerms.get(0)
+						.size()]));
+		Petrik term2 = new Petrik(wantedTerms.get(1)
+				.toArray(new Integer[wantedTerms.get(1)
+						.size()]));
 		Petrik ans = term1.MinTerms(term2);
 		wantedTerms.removeFirst();
 		wantedTerms.removeFirst();
 		while (wantedTerms.size() != 0) {
-			wantedTerms.set(0, removeChecked(wantedTerms.get(0)));
+			wantedTerms.set(0,
+					removeChecked(wantedTerms.get(0)));
 
-			ans = ans.MinTerms(new Petrik(wantedTerms.get(0).toArray(new Integer[wantedTerms.get(0).size()])));
+			ans = ans.MinTerms(new Petrik(wantedTerms.get(0)
+					.toArray(new Integer[wantedTerms.get(0)
+							.size()])));
 			wantedTerms.removeFirst();
 		}
 		ans = minAnswer(ans);
@@ -242,10 +290,12 @@ public class Simplifier implements ISimplifier {
 		return ans;
 	}
 
-	public LinkedList<Integer> removeChecked(LinkedList<Integer> primes) {
+	public LinkedList<Integer> removeChecked(
+			LinkedList<Integer> primes) {
 		int i = 0;
 		while (i < primes.size()) {
-			if (Reducedterms.get(primes.get(i)).isChecked()) {
+			if (Reducedterms.get(primes.get(i))
+					.isChecked()) {
 				primes.remove(i);
 				i--;
 			}
@@ -253,9 +303,12 @@ public class Simplifier implements ISimplifier {
 		}
 		return primes;
 	}
+
 	/**
-	 * @return 1 when the second array is a subset of the first array.
-	 * @return -1 when the first array is a subset of the second array
+	 * @return 1 when the second array is a subset of the first
+	 *         array.
+	 * @return -1 when the first array is a subset of the second
+	 *         array
 	 * @return 0 when no array is subset of another
 	 */
 	public int containsAll(int[] a, int[] b) {
@@ -281,5 +334,9 @@ public class Simplifier implements ISimplifier {
 		}
 		return 0;
 
+	}
+
+	public void setObserver(QMM qmm) {
+		this.qmm = qmm;
 	}
 }

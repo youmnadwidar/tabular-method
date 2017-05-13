@@ -29,7 +29,6 @@ public class MintermReduced extends Minterm
 		this(minterm.getBits(), minterm.getValue(),
 				reducedDiff);
 
-
 	}
 
 	public MintermReduced(MintermReduced minterm,
@@ -88,6 +87,22 @@ public class MintermReduced extends Minterm
 				.getValue()
 				&& Arrays.equals(reducedDifferences,
 						((MintermReduced) term).reducedDifferences));
+	}
+
+	public String toString() {
+		return super.toString() + "(" + printDiff() + ")";
+	}
+
+	private String printDiff() {
+		StringBuilder ommitted = new StringBuilder();
+		for (int i = 0; i < this.reducedDifferences.length; i++) {
+			if (i == getReducedDifferences().length - 1) {
+				ommitted.append(reducedDifferences[i]);
+				continue;
+			}
+			ommitted.append(reducedDifferences[i]+",");
+		}
+		return ommitted.toString();
 	}
 
 }

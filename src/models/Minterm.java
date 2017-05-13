@@ -58,6 +58,10 @@ public class Minterm implements IMinterm {
 		term.checked=true;
 		return reduced;
 	}
+	
+	public String toString(){
+		return String.valueOf(this.value);
+	}
 
 	
 
