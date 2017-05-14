@@ -182,12 +182,7 @@ public class Simplifier implements ISimplifier {
 	}
 
 	private void remove(MintermReduced term) {
-		/**
-		 * int[] coveredTerms = getcoverTerms(term); for (int i =
-		 * 0; i < coveredTerms.length; i++) {
-		 * minterms[coveredTerms[i]] = 0;
-		 * this.wantedTerms.remove(coveredTerms[i]); }
-		 **/
+		
 		term.checked = true;
 	}
 
@@ -207,14 +202,14 @@ public class Simplifier implements ISimplifier {
 										.toString(),
 								"", "",
 								" is a row dominant implicant, added to answer."));
-						Reducedterms.remove(j);
+						remove(Reducedterms.get(j));
 					} else {
 						qmm.addStep(new Action(
 								Reducedterms.get(i)
 										.toString(),
 								"", "",
 								" is a row dominant implicant, added to answer."));
-						Reducedterms.remove(i);
+						remove(Reducedterms.get(i));
 					}
 				}
 			}
