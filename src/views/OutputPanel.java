@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import javax.swing.ScrollPaneConstants;
 
 public class OutputPanel extends JPanel {
 	/**
@@ -29,11 +30,13 @@ public class OutputPanel extends JPanel {
 	 */
 	public OutputPanel() {
 		setBackground(new Color(255, 255, 204));
-		setLayout(new GridLayout(0, 1, 0, 0));
+		setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
 		add(panel);
 		JScrollPane scrPane = new JScrollPane(panel);
+		scrPane.setEnabled(true);
+		scrPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		add(scrPane);
 		panel.setForeground(SystemColor.textHighlight);
 		panel.setBackground(new Color(255, 255, 204));
@@ -111,6 +114,7 @@ public class OutputPanel extends JPanel {
 				Font.BOLD | Font.ITALIC, 11));
 		steps.setEditable(false);
 		steps.setBackground(new Color(235, 235, 204));
+		result.setAutoscrolls(true);
 		panel_2.add(steps, BorderLayout.CENTER);
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.fill = GridBagConstraints.BOTH;

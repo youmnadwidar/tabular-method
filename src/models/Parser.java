@@ -11,7 +11,7 @@ public class Parser {
 		String[] elements = text.split(",");
 		int[] terms = new int[elements.length];
 		for (int i = 0; i < terms.length; i++) {
-			terms[i] = Integer.parseInt(elements[i]);
+			terms[i] = Integer.parseInt(elements[i].trim());
 		}
 		return terms;
 	}
@@ -23,7 +23,7 @@ public class Parser {
 	public String parse(LinkedList<MintermReduced> terms) {
 		StringBuilder sb = new StringBuilder();
 		for (MintermReduced term : terms) {
-			sb.append(term.getValue() + "(");
+			/*sb.append(term.getValue() + "(");
 			for (int i = 0; i < term
 					.getReducedDifferences().length; i++) {
 				int element = term
@@ -35,7 +35,8 @@ public class Parser {
 					sb.append(element + ",");
 				}
 			}
-			sb.append(") + ");
+			sb.append(") + ");*/
+			sb.append(term.toString()+ " + ");
 		}
 		sb.delete(sb.length()-2, sb.length());
 		return sb.toString();

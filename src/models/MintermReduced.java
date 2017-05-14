@@ -90,7 +90,14 @@ public class MintermReduced extends Minterm
 	}
 
 	public String toString() {
-		return super.toString() + "(" + printDiff() + ")";
+		return alphabetString();
+	}
+	
+	public String toString(boolean isAlphabet){
+		if(isAlphabet){
+			return alphabetString();
+		}
+		return super.toString(false)+"("+printDiff()+")";
 	}
 
 	private String printDiff() {
@@ -103,6 +110,33 @@ public class MintermReduced extends Minterm
 			ommitted.append(reducedDifferences[i]+",");
 		}
 		return ommitted.toString();
+	}
+	
+	protected String alphabetString() {
+		StringBuilder sb = new StringBuilder();
+		for(int i =0 ; i<this.bits;i++){
+			if(isOmitted(i)){
+				continue;
+			}
+			int literal = 'A'+i;
+			sb.append(Character.toChars(literal));
+			if(isNegated(i)){
+				sb.append("'");
+			}
+		}
+		return sb.length() == 0 ? "1" : sb.toString();
+	}
+	
+	private boolean isOmitted(int index){
+		for(int i = 0 ; i<this.reducedDifferences.length;i++){
+			
+			if( (int) Math.pow(2, this.bits-index-1)  ==  reducedDifferences[i])
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 }

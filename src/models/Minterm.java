@@ -1,8 +1,8 @@
 package models;
 
 public class Minterm implements IMinterm {
-	private int bits;
-	private int value;
+	protected int bits;
+	protected int value;
 	protected boolean checked;
 
 	
@@ -59,8 +59,38 @@ public class Minterm implements IMinterm {
 		return reduced;
 	}
 	
-	public String toString(){
+	public String numericalForm(){
 		return String.valueOf(this.value);
+	}
+	
+	public String toString(boolean isAlphabet){
+		if(!isAlphabet){
+			return numericalForm();
+		}
+		return alphabetString();
+	}
+	public String toString(){
+		return alphabetString();
+	}
+
+	private String alphabetString() {
+		StringBuilder sb = new StringBuilder();
+		for(int i =0 ; i<this.bits;i++){
+			int literal = 'A'+i;
+			sb.append(Character.toChars(literal));
+			if(isNegated(i)){
+				sb.append("'");
+			}
+		}
+		return sb.length() == 0 ? "1" : sb.toString();
+	}
+
+	protected boolean isNegated(int i) {
+		String binaryRepresentation = Integer.toBinaryString(this.value);
+		if(i < this.bits - binaryRepresentation.length()){
+			return true;
+		}
+		return binaryRepresentation.charAt(i - ( this.bits - binaryRepresentation.length()) ) == '0';
 	}
 
 	
