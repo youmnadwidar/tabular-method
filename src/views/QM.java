@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.JFileChooser;
 import javax.swing.GroupLayout.Alignment;
@@ -69,7 +70,13 @@ public class QM {
 		frame.setBounds(50, 50, 875, 664);
 		frame.setDefaultCloseOperation(
 				JFrame.EXIT_ON_CLOSE);
-
+		try {
+		    frame.setIconImage(ImageIO.read(new File("QM.png")));
+		    
+		}
+		catch (IOException exc) {
+		    exc.printStackTrace();
+		}
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setContinuousLayout(true);
 		splitPane.setOneTouchExpandable(true);

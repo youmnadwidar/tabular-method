@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -27,6 +28,7 @@ public class QMM {
 	String currentProcess;
 	ArrayBlockingQueue<Action> steps = new ArrayBlockingQueue<Action>(
 			1000000);
+	private Integer bits;
 
 	public QMM(String path) {
 		this(new File(path));
@@ -64,8 +66,18 @@ public class QMM {
 	public void initiate(String minterms, String dc,
 			String bits) {
 		parser = new Parser();
+		try{
+			this.bits = Integer.valueOf(bits);
+		}catch(NumberFormatException e){
+			this.currentProcess = "Invalid Number Format";
+			return;
+		}
 		this.minterms = parser.parse(minterms);
 		this.dc = parser.parse(dc);
+		if (this.minterms == null || this.dc == null){
+			this.currentProcess = "Invalid Input format, no letters are permitted, only numbers and commas.";
+			return;
+		}
 		int[] allTerms;
 		if (this.minterms.length == 0) {
 			this.currentProcess = "minterms can't be empty";
@@ -86,23 +98,32 @@ public class QMM {
 		try {
 			System.arraycopy(this.dc, 0, allTerms,
 					this.minterms.length, this.dc.length);
+			Arrays.sort(allTerms);
+			Arrays.sort(this.minterms);
 		} catch (NullPointerException e) {
 
 		}
+		if(allTerms[allTerms.length-1]>= (int) Math.pow(2, this.bits)){
+			this.currentProcess = "One or term is not smaller than 2^bits.";
+			return;
+
+		}
+		
 		try {
 			this.minimizer = new Minimizer(
-					Integer.valueOf(bits));
+					this.bits);
 			minimizer.setObserver(this);
 		} catch (NumberFormatException e) {
 			this.currentProcess = "number of bits is required";
 			return;
 		}
+		
 		simplifier = new Simplifier();
 
 		simplifier.setObserver(this);
 		this.reduced = parser.parse(simplifier.simplify(
 				minimizer.minimize(allTerms),
-				Integer.valueOf(bits), this.minterms),
+				this.bits, this.minterms),
 				true);
 
 		this.currentProcess = "Complete!";
