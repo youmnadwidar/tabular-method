@@ -244,31 +244,36 @@ public class Simplifier implements ISimplifier {
 	}
 
 	public Petrik GetPetrik() {
-		wantedTerms.set(0,
-				wantedTerms.get(0));
-		wantedTerms.set(1,
-				wantedTerms.get(1));
+		while (wantedTerms.get(0)==null) {
+			wantedTerms.removeFirst();
+		}
 
 		Petrik term1 = new Petrik(wantedTerms.get(0)
-				.toArray(new Integer[wantedTerms.get(0)
-						.size()]));
+				.toArray(new Integer[wantedTerms.get(0).size()]));
 		Petrik term2 = new Petrik(wantedTerms.get(1)
 				.toArray(new Integer[wantedTerms.get(1)
 						.size()]));
 		Petrik ans = term1.MinTerms(term2);
-		
-		qmm.addStep(new Action(wanted.removeFirst().toString(), wanted.removeFirst().toString(), ans.petrikTerm.toString(), "used petrik to cover it with"));
+		LinkedList<LinkedList<MintermReduced>> temp = new LinkedList<>();
+
+		for (int i = 0; i < ans.petrikTerm.size(); i++) {
+			temp.add(new LinkedList<>());
+			for (int j = 0; j < ans.petrikTerm.get(i).size(); j++) {
+				temp.get(i).add(Reducedterms.get(ans.petrikTerm.get(i).get(j)));
+			}
+		}
+		qmm.addStep(new Action(wanted.removeFirst().toString(), wanted.removeFirst().toString(),"\n"+ temp.toString(), "used petrik to cover it with"));
 		wantedTerms.removeFirst();
 		wantedTerms.removeFirst();
 		while (wantedTerms.size() != 0 &&wantedTerms.getFirst()!=null) {
 			wantedTerms.set(0,
 					wantedTerms.get(0));
-
+			LinkedList<LinkedList<MintermReduced>> temp1 = new LinkedList<>();
+			temp1=temp;
 			ans = ans.MinTerms(new Petrik(wantedTerms.get(0)
 					.toArray(new Integer[wantedTerms.get(0)
 							.size()])));
-			LinkedList<LinkedList<MintermReduced>> temp = new LinkedList<>();
-
+			temp = new LinkedList<>();
 			for (int i = 0; i < ans.petrikTerm.size(); i++) {
 				temp.add(new LinkedList<>());
 				for (int j = 0; j < ans.petrikTerm.get(i).size(); j++) {
@@ -276,7 +281,7 @@ public class Simplifier implements ISimplifier {
 					temp.get(i).add(Reducedterms.get(ans.petrikTerm.get(i).get(j)));
 				}
 			}
-			qmm.addStep(new Action(ans.petrikTerm.toString(), wanted.removeFirst().toString(), temp.toString(), "used petrik to cover them both with"));
+			qmm.addStep(new Action(temp1.toString(), wanted.removeFirst().toString(),"\n"+ temp.toString(), "used petrik to cover them both with the terms the covers"));
 
 			wantedTerms.removeFirst();
 		}

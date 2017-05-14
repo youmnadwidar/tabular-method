@@ -46,14 +46,13 @@ public class Minimizer implements IMinimizer {
 					boolean result = reduceReduced(i, k);
 					
 					finished = finished && result;
-					
+				}
 					if (process.get(k)[i] != null && process
 							.get(k)[i + 1] == null) {
 						for (int j = 0; j < process
 								.get(k)[i].size(); j++) {
 
-							if (!process.get(k)[i].get(j)
-									.isChecked()) {
+							
 								addAnswer(process.get(k)[i]
 										.get(j));
 								qm.addStep(new Action(
@@ -61,12 +60,16 @@ public class Minimizer implements IMinimizer {
 												.get(j).toString(),
 										"", "",
 										" is not checked, added to answer."));
-							}
+							
 						}
 					}
+					i++;
 				}
 
-			}
+			
+			
+				
+			
 			k++;
 
 		}
@@ -97,8 +100,8 @@ public class Minimizer implements IMinimizer {
 	 */
 	@SuppressWarnings("unchecked")
 	public void Reducefirst() {
-	//	qm.setCurrentProccess(
-		//		"Step 2: Minimizing first Coloumn.");
+		qm.setCurrentProccess(
+			"Step 2: Minimizing first Coloumn.");
 		int i = 0;
 		process.add(new LinkedList[bits + 1]);
 		while (i + 1 < firstTerms.length) {
