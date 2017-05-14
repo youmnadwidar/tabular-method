@@ -144,7 +144,7 @@ public class QM {
 						+ "<ul>"
 						+ "<li> <strong>Write down the function minterms in numerical form seperated with commas.</strong></li>"
 						+ "<li> Enter the value of the don't cares of the function, if there are any.</li>"
-						+ "<li> <strong>Write the number of inputs of the function.</strong></li>"
+						+ "<li> <strong>Write the number of varaiables of the function.</strong></li>"
 						+ "<li> Press minimize and the see the result below accompanied with the steps</li>"
 						+ "<li> You may upload a text file containing the minterms, but it should be formatted as follows:"
 						+ "<ul>"
