@@ -34,8 +34,7 @@ public class Minimizer implements IMinimizer {
 
 		while (!finished) {
 			finished = true;
-			i = 0;
-			while (i + 1 < process.get(k).length) {
+			for (i = 0 ; i + 1 < process.get(k).length;i++) {
 				if (process.get(k)[i] != null
 						&& process.get(k)[i + 1] != null) {
 					if (process.size() < k + 2) {
@@ -66,7 +65,6 @@ public class Minimizer implements IMinimizer {
 						}
 					}
 				}
-				i++;
 
 			}
 			k++;
@@ -99,8 +97,8 @@ public class Minimizer implements IMinimizer {
 	 */
 	@SuppressWarnings("unchecked")
 	public void Reducefirst() {
-		qm.setCurrentProccess(
-				"Step 2: Minimizing first Coloumn.");
+	//	qm.setCurrentProccess(
+		//		"Step 2: Minimizing first Coloumn.");
 		int i = 0;
 		process.add(new LinkedList[bits + 1]);
 		while (i + 1 < firstTerms.length) {
@@ -117,7 +115,7 @@ public class Minimizer implements IMinimizer {
 										.get(j2));
 						if (newterm != null) {
 							process.get(0)[i].add(newterm);
-							qm.addStep(new Action(
+						qm.addStep(new Action(
 									firstTerms[i].get(j)
 											.toString(),
 									firstTerms[i + 1]
@@ -207,7 +205,7 @@ public class Minimizer implements IMinimizer {
 				MintermReduced newterm = process.get(k)[i]
 						.get(j).reduce(process.get(k)[i + 1]
 								.get(j2));
-				if (newterm != null) {
+				if (newterm != null && !process.get(k + 1)[i].contains(newterm)) {
 					reducedTerms++;
 					process.get(k + 1)[i].add(newterm);
 

@@ -8,6 +8,7 @@ import controllers.QMM;
 
 public class Simplifier implements ISimplifier {
 	int bits;
+	LinkedList<Integer> wanted = new LinkedList<>();
 	LinkedList<LinkedList<Integer>> wantedTerms = new LinkedList<>();
 	LinkedList<Integer>[] termschecked;
 	LinkedList<MintermReduced> answer = new LinkedList<>();
@@ -23,6 +24,7 @@ public class Simplifier implements ISimplifier {
 		this.bits = bits;
 		for (int i = 0; i < wantedTerms.length; i++) {
 			this.wantedTerms.add(new LinkedList<>());
+			this.wanted.add(wantedTerms[i]);
 		}
 		Reducedterms = firststep;
 		fill2Darray(bits);
@@ -136,6 +138,8 @@ public class Simplifier implements ISimplifier {
 				MintermReduced term = Reducedterms.get(
 						this.wantedTerms.get(i).getFirst());
 				answer.add(term);
+				
+				
 					qmm.addStep(
 							new Action(term.toString(),
 							"", "",
@@ -147,6 +151,7 @@ public class Simplifier implements ISimplifier {
 							.contains(this.wantedTerms
 									.get(i).getFirst())
 							&& i != j) {
+						wanted.remove(j);
 						this.wantedTerms.remove(j);
 						if (j < i)
 							i--;
@@ -222,8 +227,10 @@ public class Simplifier implements ISimplifier {
 		while (i < wantedTerms.size()) {
 			for (int j = 0; j < wantedTerms.size()
 					&& i != j; j++) {
-				if (wantedTerms.get(j)
-						.containsAll(wantedTerms.get(i))) {
+				if (wantedTerms.get(i)!=null&&wantedTerms.set(j,wantedTerms.get(j))
+						.containsAll(wantedTerms.set(i,wantedTerms.get(i)))) {
+					qmm.addStep(new Action(this.wanted.get(j).toString(), this.wanted.get(i).toString(), "", "removed by coloumn Dominant with"));
+					this.wanted.remove(j);
 					this.wantedTerms.remove(j);
 					j--;
 				}
@@ -243,9 +250,9 @@ public class Simplifier implements ISimplifier {
 
 	public Petrik GetPetrik() {
 		wantedTerms.set(0,
-				removeChecked(wantedTerms.get(0)));
+				wantedTerms.get(0));
 		wantedTerms.set(1,
-				removeChecked(wantedTerms.get(1)));
+				wantedTerms.get(1));
 
 		Petrik term1 = new Petrik(wantedTerms.get(0)
 				.toArray(new Integer[wantedTerms.get(0)
@@ -254,15 +261,28 @@ public class Simplifier implements ISimplifier {
 				.toArray(new Integer[wantedTerms.get(1)
 						.size()]));
 		Petrik ans = term1.MinTerms(term2);
+		
+		qmm.addStep(new Action(wanted.removeFirst().toString(), wanted.removeFirst().toString(), ans.petrikTerm.toString(), "used petrik to cover it with"));
 		wantedTerms.removeFirst();
 		wantedTerms.removeFirst();
-		while (wantedTerms.size() != 0) {
+		while (wantedTerms.size() != 0 &&wantedTerms.getFirst()!=null) {
 			wantedTerms.set(0,
-					removeChecked(wantedTerms.get(0)));
+					wantedTerms.get(0));
 
 			ans = ans.MinTerms(new Petrik(wantedTerms.get(0)
 					.toArray(new Integer[wantedTerms.get(0)
 							.size()])));
+			LinkedList<LinkedList<MintermReduced>> temp = new LinkedList<>();
+
+			for (int i = 0; i < ans.petrikTerm.size(); i++) {
+				temp.add(new LinkedList<>());
+				for (int j = 0; j < ans.petrikTerm.get(i).size(); j++) {
+					
+					temp.get(i).add(Reducedterms.get(ans.petrikTerm.get(i).get(j)));
+				}
+			}
+			qmm.addStep(new Action(ans.petrikTerm.toString(), wanted.removeFirst().toString(), temp.toString(), "used petrik to cover them both with"));
+
 			wantedTerms.removeFirst();
 		}
 		ans = minAnswer(ans);
@@ -284,6 +304,7 @@ public class Simplifier implements ISimplifier {
 		}
 		for (int i = 0; i < ans.petrikTerm.size(); i++) {
 			if (ans.petrikTerm.get(i).size() > min) {
+				qmm.addStep(new Action("answer"+i,"", "", "removed because it wasn't minimum"));
 				ans.petrikTerm.remove(i);
 				i--;
 			}
