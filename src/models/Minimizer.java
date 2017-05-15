@@ -34,9 +34,13 @@ public class Minimizer implements IMinimizer {
 
 		while (!finished) {
 			finished = true;
+			qm.addStep(new Action("", "", "", ""));
+			qm.addStep(new Action("", "", "", "Column "+(k+1)));
 			for (i = 0 ; i + 1 < process.get(k).length;i++) {
 				if (process.get(k)[i] != null
 						&& process.get(k)[i + 1] != null) {
+					qm.addStep(new Action("", "", "", ""));
+					qm.addStep(new Action("", "", "", "   Minimizing Group "+i+" with group "+ (i+1)));
 					if (process.size() < k + 2) {
 						process.add(
 								new LinkedList[bits + 1]);
@@ -55,7 +59,7 @@ public class Minimizer implements IMinimizer {
 							
 								addAnswer(process.get(k)[i]
 										.get(j));
-								qm.addStep(new Action(
+								qm.addStep(new Action("   "+
 										process.get(k)[i]
 												.get(j).toString(),
 										"", "",
@@ -102,11 +106,17 @@ public class Minimizer implements IMinimizer {
 	public void Reducefirst() {
 		qm.setCurrentProccess(
 			"Step 2: Minimizing first Coloumn.");
+		qm.addStep(new Action("", "", "", ""));
+		qm.addStep(new Action("", "", "", "Column "+0));
 		int i = 0;
 		process.add(new LinkedList[bits + 1]);
 		while (i + 1 < firstTerms.length) {
+			
 			if (firstTerms[i] != null
 					&& firstTerms[i + 1] != null) {
+				qm.addStep(new Action("", "", "", ""));
+				qm.addStep(new Action("", "", "", "   Minimizing Group "+i+" with group "+ (i+1)));
+
 				process.get(0)[i] = new LinkedList<>();
 				for (int j = 0; j < firstTerms[i]
 						.size(); j++) {
@@ -119,7 +129,7 @@ public class Minimizer implements IMinimizer {
 						if (newterm != null) {
 							process.get(0)[i].add(newterm);
 						qm.addStep(new Action(
-									firstTerms[i].get(j)
+									"\t"+firstTerms[i].get(j)
 											.toString(),
 									firstTerms[i + 1]
 											.get(j2)
@@ -148,7 +158,7 @@ public class Minimizer implements IMinimizer {
 										firstTerms[i].get(j)
 												.getValue(),
 										-1));
-					qm.addStep(new Action(
+					qm.addStep(new Action("   "+
 							firstTerms[i].get(j).toString(),
 							"", "",
 							"is not checked, added to answer."));
@@ -212,7 +222,7 @@ public class Minimizer implements IMinimizer {
 					reducedTerms++;
 					process.get(k + 1)[i].add(newterm);
 
-					qm.addStep(new Action(
+					qm.addStep(new Action("\t"+
 							process.get(k)[i].get(j)
 									.toString(),
 							process.get(k)[i + 1].get(j2)
