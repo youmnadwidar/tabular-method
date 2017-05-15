@@ -130,10 +130,10 @@ public class InputPanel extends JPanel {
 			}
 		});
 
-		JLabel label_1 = new JLabel("number of bits");
-		label_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		label_1.setForeground(SystemColor.textHighlight);
-		label_1.setHorizontalAlignment(
+		JLabel lblNOfBits = new JLabel("N# of bits");
+		lblNOfBits.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNOfBits.setForeground(SystemColor.textHighlight);
+		lblNOfBits.setHorizontalAlignment(
 				SwingConstants.CENTER);
 
 		bitsInput = new JTextField();
@@ -168,7 +168,7 @@ public class InputPanel extends JPanel {
 							.addGap(26)
 							.addComponent(mintermInput, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblNOfBits, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
 							.addComponent(bitsInput, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
@@ -203,7 +203,7 @@ public class InputPanel extends JPanel {
 							.addComponent(chckShowSteps)))
 					.addGap(16)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE, false)
-						.addComponent(label_1)
+						.addComponent(lblNOfBits)
 						.addComponent(bitsInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
 					.addGap(139))
