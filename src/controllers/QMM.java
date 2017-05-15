@@ -75,7 +75,7 @@ public class QMM {
 		this.minterms = parser.parse(minterms);
 		this.dc = parser.parse(dc);
 		if (this.minterms == null || this.dc == null){
-			this.currentProcess = "Invalid Input format, no letters are permitted, only numbers and commas.";
+			this.currentProcess = "Invalid Input format, only positive numbers and commas.";
 			return;
 		}
 		int[] allTerms;

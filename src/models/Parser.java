@@ -12,7 +12,7 @@ public class Parser {
 		int[] terms = new int[elements.length];
 		for (int i = 0; i < terms.length; i++) {
 			try{
-			terms[i] = Integer.parseInt(elements[i].trim());
+			terms[i] = Integer.parseUnsignedInt(elements[i].trim());
 			}catch(NumberFormatException e){
 				return null;
 			}
