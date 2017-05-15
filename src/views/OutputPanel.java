@@ -26,6 +26,7 @@ public class OutputPanel extends JPanel {
 	private JTextPane steps;
 	JScrollPane scrPane_2;
 	JScrollPane scrPane_1;
+	JPanel panel_2 ;
 
 	/**
 	 * Create the panel.
@@ -94,7 +95,7 @@ public class OutputPanel extends JPanel {
 		gbc_panel_1.gridy = 1;
 		panel.add(panel_1, gbc_panel_1);
 
-		JPanel panel_2 = new JPanel();
+		panel_2 = new JPanel();
 		panel_2.setBorder(
 				UIManager.getBorder("TextPane.border"));
 		panel_2.setLayout(new BorderLayout(0, 0));
@@ -152,5 +153,10 @@ public class OutputPanel extends JPanel {
 
 		steps.setVisible(choice);
 
+	}
+
+	public void changeStepsVisibility() {
+		panel_2.setVisible(!panel_2.isVisible());
+		
 	}
 }

@@ -26,6 +26,7 @@ import java.awt.SystemColor;
 import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.JCheckBox;
 
 public class InputPanel extends JPanel {
 	/**
@@ -144,6 +145,16 @@ public class InputPanel extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.textHighlight);
 		
+		JCheckBox chckShowSteps = new JCheckBox("Show Steps");
+		chckShowSteps.setSelected(true);
+		chckShowSteps.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				output.changeStepsVisibility();
+			}
+		});
+		chckShowSteps.setBackground(new Color(255, 255, 204));
+		chckShowSteps.setForeground(SystemColor.textHighlight);
+		
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -155,27 +166,29 @@ public class InputPanel extends JPanel {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblMinterms)
 							.addGap(26)
-							.addComponent(mintermInput, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE))
+							.addComponent(mintermInput, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
 							.addGap(4)
-							.addComponent(bitsInput, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE))
+							.addComponent(bitsInput, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(label)
 							.addGap(17)
-							.addComponent(dcInput, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)))
+							.addComponent(dcInput, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)))
 					.addGap(151)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnUpload, 0, 83, Short.MAX_VALUE)
-						.addComponent(btnMinimize, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(68))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(btnUpload, 0, 83, Short.MAX_VALUE)
+							.addComponent(btnMinimize, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(chckShowSteps))
+					.addGap(54))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE, false)
 								.addComponent(lblMinterms)
@@ -183,13 +196,16 @@ public class InputPanel extends JPanel {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(label)
-								.addComponent(dcInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE, false)
-								.addComponent(label_1)
-								.addComponent(bitsInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
-						.addComponent(btnMinimize))
+								.addComponent(dcInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnMinimize)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(chckShowSteps)))
+					.addGap(16)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE, false)
+						.addComponent(label_1)
+						.addComponent(bitsInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnUpload, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
 					.addGap(139))
 		);
 		groupLayout.setAutoCreateGaps(true);
