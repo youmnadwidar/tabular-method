@@ -154,7 +154,7 @@ public class QMM {
 		return this.currentProcess;
 	}
 
-	public String getSteps() {
+	public String  getSteps() {
 		StringBuilder sb = new StringBuilder();
 		for (Action a : steps) {
 			sb.append("* "+a.toString());
