@@ -262,7 +262,7 @@ public class Simplifier implements ISimplifier {
 				temp.get(i).add(Reducedterms.get(ans.petrikTerm.get(i).get(j)));
 			}
 		}
-		qmm.addStep(new Action(wanted.removeFirst().toString(), wanted.removeFirst().toString(),"\n"+ temp.toString(), "used petrik to cover it with"));
+		qmm.addStep(new Action(wanted.removeFirst().toString(), wanted.removeFirst().toString(), temp.toString(), "used petrik to cover it with"));
 		wantedTerms.removeFirst();
 		wantedTerms.removeFirst();
 		while (wantedTerms.size() != 0 &&wantedTerms.getFirst()!=null) {
@@ -281,7 +281,7 @@ public class Simplifier implements ISimplifier {
 					temp.get(i).add(Reducedterms.get(ans.petrikTerm.get(i).get(j)));
 				}
 			}
-			qmm.addStep(new Action(temp1.toString(), wanted.removeFirst().toString(),"\n"+ temp.toString(), "used petrik to cover them both with the terms the covers"));
+			qmm.addStep(new Action(temp1.toString(), wanted.removeFirst().toString(),temp.toString(), "used petrik to cover them both with the terms the covers"));
 
 			wantedTerms.removeFirst();
 		}

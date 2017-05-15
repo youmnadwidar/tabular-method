@@ -129,10 +129,13 @@ public class QMM {
 		this.currentProcess = "Complete!";
 	}
 
-	public void printArray(int[] array) {
+	public String printArray(int[] array) {
+		StringBuilder sb = new StringBuilder();
 		for (int i : array) {
-			System.out.println(i);
+			sb.append(i+", ");
 		}
+		sb.delete(sb.length()-2, sb.length());
+		return sb.toString();
 	}
 
 	public String getReduced() {
@@ -154,7 +157,7 @@ public class QMM {
 	public String getSteps() {
 		StringBuilder sb = new StringBuilder();
 		for (Action a : steps) {
-			sb.append(a.toString());
+			sb.append("* "+a.toString());
 			sb.append('\n');
 		}
 		return sb.toString();
@@ -163,6 +166,12 @@ public class QMM {
 	public void save(File file) throws IOException {
 		BufferedWriter out = new BufferedWriter(
 				new FileWriter(file));
+		out.write("The function:"+'\n');
+		out.write(printArray(minterms)+'\n');
+		out.write("The Don't cares"+'\n');
+		out.write(printArray(dc)+'\n');
+		out.write("Number of Bits:"+'\n');
+		out.write(this.bits+'\n');
 		out.write("Reduced Form of the function:"+'\n');
 		out.write(this.reduced);
 		out.write('\n');
