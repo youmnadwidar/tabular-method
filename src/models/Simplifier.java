@@ -153,8 +153,10 @@ public class Simplifier implements ISimplifier {
 							&& i != j) {
 						wanted.remove(j);
 						this.wantedTerms.remove(j);
-						if (j < i)
+					
+						if (j < i){
 							i--;
+						}
 						j--;
 					}
 					j++;
@@ -304,7 +306,11 @@ public class Simplifier implements ISimplifier {
 		}
 		for (int i = 0; i < ans.petrikTerm.size(); i++) {
 			if (ans.petrikTerm.get(i).size() > min) {
-				qmm.addStep(new Action("answer"+i,"", "", "removed because it wasn't minimum"));
+				LinkedList<MintermReduced> temp = new LinkedList<>();
+				for (int j = 0; j <ans.petrikTerm.get(i).size(); j++) {
+					temp.add(Reducedterms.get(ans.petrikTerm.get(i).get(j)));
+				}
+				qmm.addStep(new Action("answer"+temp.toString(),"", "", "removed because it wasn't minimum"));
 				ans.petrikTerm.remove(i);
 				i--;
 			}

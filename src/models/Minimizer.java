@@ -63,7 +63,7 @@ public class Minimizer implements IMinimizer {
 							
 						}
 					}
-					i++;
+					
 				}
 
 			
